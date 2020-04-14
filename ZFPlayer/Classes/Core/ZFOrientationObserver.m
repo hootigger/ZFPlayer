@@ -41,7 +41,8 @@
 }
 
 - (BOOL)shouldAutorotate {
-    return YES;
+    // 临时解决 iOS10 转向闪退 https://github.com/renzifeng/ZFPlayer/issues/924
+    return NO;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
