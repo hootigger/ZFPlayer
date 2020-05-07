@@ -93,9 +93,10 @@
     min_h = 40;
     self.topToolView.frame = CGRectMake(min_x, min_y, min_w, min_h);
     
-    min_x = 15;
+    /// 标题过长会显示到边缘(原始值15)
+    min_x = 60;
     min_y = 5;
-    min_w = min_view_w - min_x - 15;
+    min_w = min_view_w - min_x - 60;
     min_h = 30;
     self.titleLabel.frame = CGRectMake(min_x, min_y, min_w, min_h);
     
