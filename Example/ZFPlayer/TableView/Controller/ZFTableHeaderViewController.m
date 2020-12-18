@@ -8,12 +8,11 @@
 
 #import "ZFTableHeaderViewController.h"
 #import "ZFTableHeaderView.h"
-#import <ZFPlayer/ZFPlayer.h>
 #import <ZFPlayer/ZFAVPlayerManager.h>
 #import <ZFPlayer/ZFPlayerControlView.h>
-#import <ZFPlayer/KSMediaPlayerManager.h>
 #import <ZFPlayer/ZFIJKPlayerManager.h>
 #import <ZFPlayer/UIView+ZFFrame.h>
+#import <ZFPlayer/ZFPlayerConst.h>
 #import "ZFPlayerDetailViewController.h"
 #import "ZFTableData.h"
 #import "ZFOtherCell.h"
@@ -58,20 +57,13 @@ static NSString *kIdentifier = @"kIdentifier";
     self.player.smallFloatView.frame = CGRectMake(x, y, w, h);
     self.player.controlView = self.controlView;
     
-    @weakify(self)
+    @zf_weakify(self)
     self.player.orientationWillChange = ^(ZFPlayerController * _Nonnull player, BOOL isFullScreen) {
-        @strongify(self)
         kAPPDelegate.allowOrentitaionRotation = isFullScreen;
-        [self setNeedsStatusBarAppearanceUpdate];
-        if (!isFullScreen) {
-            /// 解决导航栏上移问题
-            self.navigationController.navigationBar.zf_height = KNavBarHeight;
-        }
-        self.tableView.scrollsToTop = !isFullScreen;
     };
     
     self.player.playerDidToEnd = ^(id  _Nonnull asset) {
-        @strongify(self)
+        @zf_strongify(self)
         [self.player stopCurrentPlayingCell];
     };
     
@@ -100,29 +92,19 @@ static NSString *kIdentifier = @"kIdentifier";
 }
 
 - (BOOL)shouldAutorotate {
-    return self.player.shouldAutorotate;
+    return NO;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    if (self.player.isFullScreen && self.player.orientationObserver.fullScreenMode == ZFFullScreenModeLandscape) {
-        return UIInterfaceOrientationMaskLandscape;
-    }
     return UIInterfaceOrientationMaskPortrait;
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    if (self.player.isFullScreen) {
-        return UIStatusBarStyleLightContent;
-    }
     return UIStatusBarStyleDefault;
 }
 
 - (BOOL)prefersStatusBarHidden {
-    return self.player.isStatusBarHidden;
-}
-
-- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
-    return UIStatusBarAnimationSlide;
+    return NO;
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -156,7 +138,7 @@ static NSString *kIdentifier = @"kIdentifier";
     [self.controlView showTitle:data.title coverURLString:data.thumbnail_url fullScreenMode:ZFFullScreenModeLandscape];
     
     if (self.tableView.contentOffset.y > self.headerView.frame.size.height) {
-        [self.player addPlayerViewToKeyWindow];
+        [self.player addPlayerViewToSmallFloatView];
     } else {
         [self.player addPlayerViewToContainerView:self.headerView.coverImageView];
     }
@@ -195,9 +177,9 @@ static NSString *kIdentifier = @"kIdentifier";
 - (ZFTableHeaderView *)headerView {
     if (!_headerView) {
         _headerView = [[ZFTableHeaderView alloc] init];
-        @weakify(self)
+        @zf_weakify(self)
         _headerView.playCallback = ^{
-            @strongify(self)
+            @zf_strongify(self)
             [self playTheIndex:0];
         };
     }
