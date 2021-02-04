@@ -407,8 +407,13 @@ static NSString *const kPresentationSize         = @"presentationSize";
             if (self.playerItem.playbackLikelyToKeepUp) {
                 self.loadState = ZFPlayerLoadStatePlayable;
                 if (self.isPlaying) {
-                    [self.player play];
-                    self.rate = self.rate;
+                    if (self.player.rate == 0) {
+                        [self.player play];
+                    }
+//                     NSLog(@"--xx--[%s@(%d)] rate = %f,player.rate = %f",__FUNCTION__,__LINE__,self.rate,self.player.rate);
+                    if (self.player.rate != self.rate) {
+                        self.rate = self.rate;
+                    }
                 }
             }
         } else if ([keyPath isEqualToString:kLoadedTimeRanges]) {
