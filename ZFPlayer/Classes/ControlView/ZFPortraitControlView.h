@@ -67,6 +67,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// slider滑动结束
 @property (nonatomic, copy, nullable) void(^sliderValueChanged)(CGFloat value);
 
+/// FIXME: layoutSubViews回调
+@property (nonatomic, copy, nullable) void(^layoutSubviewsBlock)(ZFPortraitControlView *view);
+
 /// 如果是暂停状态，seek完是否播放，默认YES
 @property (nonatomic, assign) BOOL seekToPlay;
 

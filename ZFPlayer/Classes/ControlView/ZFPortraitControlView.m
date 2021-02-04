@@ -149,6 +149,9 @@
         self.bottomToolView.zf_y = self.zf_height - self.bottomToolView.zf_height;
         self.playOrPauseBtn.alpha = 1;
     }
+    if (self.layoutSubviewsBlock) {
+        self.layoutSubviewsBlock(self);
+    }
 }
 
 - (void)makeSubViewsAction {

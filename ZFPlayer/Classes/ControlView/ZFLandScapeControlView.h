@@ -70,6 +70,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// slider滑动结束
 @property (nonatomic, copy, nullable) void(^sliderValueChanged)(CGFloat value);
 
+/// FIXME: layoutSubViews回调
+@property (nonatomic, copy, nullable) void(^layoutSubviewsBlock)(ZFLandScapeControlView *view);
+
 /// 返回按钮点击回调
 @property (nonatomic, copy) void(^backBtnClickCallback)(void);
 
