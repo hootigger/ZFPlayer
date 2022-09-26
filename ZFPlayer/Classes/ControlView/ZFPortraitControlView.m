@@ -166,7 +166,7 @@
 }
 
 - (void)fullScreenButtonClickAction:(UIButton *)sender {
-    [self.player enterFullScreen:YES animated:YES];
+    [self.player enterFullScreen:YES animated:NO];
 }
 
 /// 根据当前播放状态取反
